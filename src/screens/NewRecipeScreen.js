@@ -104,7 +104,6 @@ const styles = StyleSheet.create({
     marginVertical: 20
   },
   descriptionInput: {
-    textTransform: 'capitalize',
     textAlign: 'left',
     marginVertical: 20
   },
