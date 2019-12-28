@@ -4,6 +4,7 @@ import { Text, Input, Button } from 'react-native-elements';
 import { useSignFormInputModel } from '../hooks/useSignFormInputModel';
 
 import { Dimensions } from 'react-native';
+
 const WIDTH = Dimensions.get('window').width;
 
 const SignForm = ({ buttonTitle, onPressButton, errorMessage }) => {
@@ -14,7 +15,7 @@ const SignForm = ({ buttonTitle, onPressButton, errorMessage }) => {
       <Input { ...inputProps.email } />
       <Input { ...inputProps.password } />
       { errorMessage ? <Text style = { styles.errorMessage }>{ errorMessage }</Text> : null }
-      <Button title = { buttonTitle } onPress = { () => onPressButton(states) } buttonStyle = { styles.button } />
+      <Button title = { buttonTitle } onPress = { () => onPressButton(states) } />
     </View>
   );
 };
@@ -26,11 +27,6 @@ const styles = StyleSheet.create({
   errorMessage: {
     color: '#ed2c29',
     fontSize: 12
-  },
-  button: {
-    backgroundColor: '#000',
-    width: WIDTH - 25,
-    marginVertical: 10
   }
 });
 

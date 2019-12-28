@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import logo from '../../assets/logo2.png';
-import { Image } from 'react-native-elements';
-import { withNavigation } from 'react-navigation';
 import { View, StyleSheet, ImageBackground } from 'react-native';
+import { Image } from 'react-native-elements';
+import logo from '../../assets/logo2.png';
+import { withNavigation } from 'react-navigation';
 import SignForm from '../components/SignForm';
 import SignNavLink from '../components/SignNavLink';
 

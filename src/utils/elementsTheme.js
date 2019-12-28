@@ -9,9 +9,11 @@ export default {
     }
   },
   Button: {
-    backgroundColor: '#000000',
-    width: WIDTH - 25,
-    marginVertical: 10
+    buttonStyle: {
+      backgroundColor: '#000000',
+      width: WIDTH - 25,
+      marginVertical: 10,
+    }
   },
   Input: {
     placeholderTextColor: 'rgba(255, 255, 255, 1)',

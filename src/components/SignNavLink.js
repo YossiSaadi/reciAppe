@@ -1,7 +1,7 @@
 import React from 'react';
+import { TouchableOpacity, StyleSheet } from 'react-native';
 import { Text } from 'react-native-elements';
 import { withNavigation } from 'react-navigation';
-import { TouchableOpacity, StyleSheet } from 'react-native';
 
 const SignNavLink = withNavigation(({ navigation, text, routeName }) => {
   return (
