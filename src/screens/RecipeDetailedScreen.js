@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { View, StyleSheet, FlatList } from 'react-native';
 import { Image, Text } from 'react-native-elements';
-import useRecipes from '../hooks/useRecipes';
+import useRecipes from '../hooks/useSpoonacularRecipes';
 import SpinnerLoader from '../components/SpinnerLoader';
 
 const RecipeDetailedScreen = ({ navigation }) => {

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { StyleSheet, ScrollView } from 'react-native';
 import { Text, SearchBar } from 'react-native-elements';
-import useRecipes from '../hooks/useRecipes';
+import useRecipes from '../hooks/useSpoonacularRecipes';
 import RecipesHomeCardList from '../components/RecipesHomeCardList';
 
 const HomeScreen = () => {

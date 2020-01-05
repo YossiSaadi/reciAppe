@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import spoonacularApi, { spoonacularApiKey } from '../api/spoonacular';
-import { getIngredientsListByTermAppMock } from '../mocks';
+import { getIngredientsListByTermAppMock } from '../spoonacularMocks';
 
 export default () => {
   const [ resultsFound, setResultsFound ] = useState([]);

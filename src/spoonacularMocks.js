@@ -1,4 +1,4 @@
-export const getRecipesRandomly = {
+export const getRecipesRandomlyMock = {
   data: {
     baseUri: 'https://spoonacular.com/recipeImages/',
     expires: 1577639257233,
