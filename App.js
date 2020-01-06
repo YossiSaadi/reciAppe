@@ -92,7 +92,7 @@ const AppSwitchNavigator =
         })
       }
     }, {
-      initialRouteName: 'NewRecipe',
+      initialRouteName: 'Main',
       defaultNavigationOptions: ({ navigation }) => ({
         tabBarIcon: ({ focused, horizontal, tintColor }) => {
           const { routeName } = navigation.state;
