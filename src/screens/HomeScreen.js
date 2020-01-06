@@ -43,6 +43,7 @@ const HomeScreen = () => {
           title = "Less than 50 mins"
           recipes = { filterRecipesByTime(31, 50) }
         />
+
         <RecipesHomeCardList
           title = "Less than 100 mins"
           recipes = { filterRecipesByTime(51, 100) }
