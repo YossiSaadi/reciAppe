@@ -20,7 +20,7 @@ export default () => {
             const headers = {
                 "Content-Type": "application/json"
             };
-            const response = await backendApi.users.post("http://192.168.43.162:9000/user", data, {headers});
+            const response = await backendApi.users.post("", data, {headers});
             const results = response.data;
             setResultsFound(results);
             setErrorMessage('');
@@ -33,7 +33,7 @@ export default () => {
 
     const getUserById = async (id) => {
         try {
-            const response = await backendApi.users.get("http://192.168.43.162:9000/user/"+id);
+            const response = await backendApi.users.get(""+id);
             const results = response.data;
             setResultsFound(results);
             setErrorMessage('');
@@ -58,7 +58,7 @@ export default () => {
             const headers = {
                 "Content-Type": "application/json"
             };
-            const response = await backendApi.users.put("http://192.168.43.162:9000/user", data, {headers});
+            const response = await backendApi.users.put("", data, {headers});
             const results = response.data;
             setResultsFound(results);
             setErrorMessage('');
@@ -71,7 +71,7 @@ export default () => {
 
     const deleteUser = async (id) => {
         try {
-            const response = await backendApi.users.delete("http://192.168.43.162:9000/user/"+id);
+            const response = await backendApi.users.delete(""+id);
             const results = response.data;
             setResultsFound(results);
             setErrorMessage('');

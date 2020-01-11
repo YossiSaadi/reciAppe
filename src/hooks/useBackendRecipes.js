@@ -16,9 +16,9 @@ export default () => {
             if (file) {
                 const data = new FormData();
                 data.append("recipeImage", file);
-                response = await backendApi.recipes.post("http://192.168.43.162:9000/recipe?" + params.toString(), data);
+                response = await backendApi.recipes.post(""+"?" + params.toString(), data);
             } else {
-                response = await backendApi.recipes.post("http://192.168.43.162:9000/recipe", params);
+                response = await backendApi.recipes.post("", params);
             }
             const results = response.data;
             setResultsFound(results);
@@ -32,7 +32,7 @@ export default () => {
     const searchRecipeByCategory = async (category = null) => {
         try {
             const path = category ? `?byCategory=${category}` : '';
-            const response = await backendApi.recipeSearch.get("http://192.168.43.162:9000/recipeSearch/" + path);
+            const response = await backendApi.recipeSearch.get("" + path);
             const results = response.data;
             setResultsFound(results);
             setErrorMessage('');
@@ -45,7 +45,7 @@ export default () => {
     const searchRecipeByIngredients = async (ingredients = null) => {
         try {
             const path = ingredients ? `?byIngredients=${ingredients}` : '';
-            const response = await backendApi.recipeSearch.get("http://192.168.43.162:9000/recipeSearch/" + path);
+            const response = await backendApi.recipeSearch.get("" + path);
             const results = response.data;
             setResultsFound(results);
             setErrorMessage('');
@@ -57,7 +57,7 @@ export default () => {
 
     const deleteRecipe = async (id) => {
         try {
-            const response = await backendApi.recipes.delete("http://192.168.43.162:9000/recipe/" + id);
+            const response = await backendApi.recipes.delete("" + id);
             const results = response.data;
             setResultsFound(results);
             setErrorMessage('');
@@ -69,7 +69,7 @@ export default () => {
 
     const getRecipeById = async (id) => {
         try {
-            const response = await backendApi.recipes.get("http://192.168.43.162:9000/recipe/" + id);
+            const response = await backendApi.recipes.get("" + id);
             const results = response.data;
             setResultsFound(results);
             setErrorMessage('');
@@ -90,9 +90,9 @@ export default () => {
             if (file) {
                 const data = new FormData();
                 data.append("recipeImage", file);
-                response = await backendApi.recipes.put("http://192.168.43.162:9000/recipe/"+id+"?" + params.toString(), data);
+                response = await backendApi.recipes.put(""+id+"?" + params.toString(), data);
             } else {
-                response = await backendApi.recipes.put("http://192.168.43.162:9000/recipe/"+id, params);
+                response = await backendApi.recipes.put(""+id, params);
             }
             const results = response.data;
             setResultsFound(results);
