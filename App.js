@@ -117,7 +117,7 @@ const AppSwitchNavigator =
       })
     })
   }, {
-    initialRouteName: 'Bottom'
+    initialRouteName: 'LoginFlow'
   });
 
 const App = createAppContainer(AppSwitchNavigator);

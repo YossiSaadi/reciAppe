@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { View, StyleSheet, Text, FlatList, TouchableOpacity } from 'react-native';
 import { SearchBar } from 'react-native-elements';
-import useIngredients from '../hooks/useIngredients';
+import useIngredients from '../hooks/useSpoonacularIngredients';
 import IngredientCard from '../components/IngredientCard';
 
 const IngredientsScreen = ({ navigation }) => {

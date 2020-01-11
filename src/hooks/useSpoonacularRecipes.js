@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import spoonacularApi, { spoonacularApiKey } from '../api/spoonacular';
-import { getRecipeByIdMock, getRecipesByTermCheeseMock, getRecipesRandomly } from '../mocks';
+import { getRecipeByIdMock, getRecipesByTermCheeseMock, getRecipesRandomlyMock } from '../spoonacularMocks';
 
 export default () => {
   const [ resultsFound, setResultsFound ] = useState([]);
@@ -14,7 +14,7 @@ export default () => {
           number: 30
         }
       });
-      // const response = getRecipesRandomly;
+      // const response = getRecipesRandomlyMock;
 
       const { recipes } = response.data;
       setResultsFound(recipes);
