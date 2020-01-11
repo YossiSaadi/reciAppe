@@ -1,16 +1,25 @@
 import React from 'react';
 import signBackgroundImage from '../../assets/signBackgroundImage.png';
-import { authCreateUserWithEmailAndPassword } from '../firebase/auth';
 import SignInterface from '../components/SignInterface';
+import useBackendUsers from "../hooks/useBackendUsers";
+import {getCurrentUser} from "../firebase/auth";
+import { authCreateUserWithEmailAndPassword } from '../firebase/auth';
 
 const SignUpScreen = () => {
-  return (
+    const { postUser } = useBackendUsers ();
+    return (
     <SignInterface
       backgroundSource = { signBackgroundImage }
       title = { 'Sign Up' }
       signNavLinkText = { `Already have an account? Sign in` }
       signNavLinkRouteName = { 'SignIn' }
-      signMethod = { authCreateUserWithEmailAndPassword }
+      signMethod = {
+          async ({email, password}) => {
+            await authCreateUserWithEmailAndPassword ({email, password});
+            const userId = getCurrentUser().uid;
+            await postUser(userId);
+          }
+      }
     />
   );
 };
