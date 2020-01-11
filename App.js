@@ -4,6 +4,7 @@ import { createAppContainer, createSwitchNavigator } from 'react-navigation';
 import { createStackNavigator } from 'react-navigation-stack';
 import { createBottomTabNavigator } from 'react-navigation-tabs';
 import HomeScreen from './src/screens/HomeScreen';
+import FavoritesScreen from './src/screens/FavoritesScreen';
 import RecipeDetailedScreen from './src/screens/RecipeDetailedScreen';
 import SignInScreen from './src/screens/SignInScreen';
 import SignUpScreen from './src/screens/SignUpScreen';
@@ -65,7 +66,7 @@ const AppSwitchNavigator =
       },
       Favorites: {
         screen: createStackNavigator({
-          NewRecipe2: NewRecipeScreen,
+          NewRecipe2: FavoritesScreen,
           Ingredients: IngredientsScreen
         }, {
           initialRouteName: 'NewRecipe2',

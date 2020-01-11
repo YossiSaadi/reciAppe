@@ -63,5 +63,19 @@ export default () => {
     }
   };
 
-  return { searchRecipesByTerm, searchRecipeById, searchRecipesRandomly, resultsFound, errorMessage };
+  const getUserFavorites = async (id) => {
+    try {
+      const response = await spoonacularApi.user.get(`/${ id }/`);
+      // const response = getRecipeByIdMock;
+
+      const results = response.data.favoriteRecipes;
+      setResultsFound(results);
+      setErrorMessage('');
+    } catch (e) {
+      setErrorMessage('Something went wrong');
+      console.log('ERROR: ' + e);
+    }
+  };
+
+  return { searchRecipesByTerm, searchRecipeById, searchRecipesRandomly,getUserFavorites, resultsFound, errorMessage };
 };
