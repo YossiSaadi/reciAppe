@@ -5,14 +5,8 @@ export default () => {
     const [resultsFound, setResultsFound] = useState([]);
     const [errorMessage, setErrorMessage] = useState('');
 
-    const postRecipe = async (id, file) => {
+    const postRecipe = async (json, file) => {
         try {
-            const json = {
-                id:id,
-                category: "dd",
-                ingredients: ["d", "b"],
-                preparation: "something"
-            };
             const params = new URLSearchParams();
             for (const key in json) {
                 params.append(key, json[key]);
@@ -85,14 +79,8 @@ export default () => {
         }
     };
 
-    const editRecipe = async (id, file) => {
+    const editRecipe = async (json, file) => {
         try {
-            const json = {
-                id:id,
-                category: "dd",
-                ingredients: ["d", "b"],
-                preparation: "something"
-            };
             const params = new URLSearchParams();
             for (const key in json) {
                 params.append(key, json[key]);
