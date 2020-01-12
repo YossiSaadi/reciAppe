@@ -1,7 +1,5 @@
 import {useState} from 'react';
 import backendApi from '../api/backend';
-import _ from "lodash";
-import isEmpty from "react-native-web/dist/vendor/react-native/isEmpty";
 
 export default () => {
   const [resultsFound, setResultsFound] = useState([]);
