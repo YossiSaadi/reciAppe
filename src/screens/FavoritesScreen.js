@@ -1,62 +1,36 @@
-import React, { useEffect, useState } from 'react';
-import { StyleSheet, ScrollView } from 'react-native';
-import { Text } from 'react-native-elements';
+import React, {useEffect} from 'react';
+import {StyleSheet, ScrollView} from 'react-native';
+import {Text} from 'react-native-elements';
 import useRecipes from '../hooks/useSpoonacularRecipes';
 import RecipesHomeCardList from '../components/RecipesHomeCardList';
+import useBackendUsers from "../hooks/useBackendUsers";
+import {getCurrentUser} from "../firebase/auth";
 
 const FavoritesScreen = () => {
-    const { searchRecipeById, resultsFound, errorMessage } = useRecipes();
+  const {errorMessage, getUserFavorites, favorites} = useRecipes();
+  const {getUserById} = useBackendUsers();
 
-    const filterRecipesByTime = (bottomLimit, topLimit) => {
-        return resultsFound.filter((result) => {
-            return result.readyInMinutes <= topLimit && result.readyInMinutes >= bottomLimit;
-        });
-    };
+  useEffect(() => {
+    (async () => {
+      const userId = getCurrentUser().uid;
+      const user = await getUserById(userId);
+      return await getUserFavorites(user.favoriteRecipes);
+    })();
+  }, [favorites]);
 
-    useEffect(() => {
-        (async () => await searchRecipeById())();
-    }, []);
-
-    return (
-        <>
-
-            { errorMessage ? (<Text>{ errorMessage }</Text>) : null }
-
-            <Text>Found { resultsFound != null ? resultsFound.length : 0 } results</Text>
-
-            <ScrollView showsVerticalScrollIndicator = { false }>
-                <RecipesHomeCardList
-                    title = "Less than 30 mins"
-                    recipes = { filterRecipesByTime(0, 30) }
-                />
-
-                <RecipesHomeCardList
-                    title = "Less than 50 mins"
-                    recipes = { filterRecipesByTime(31, 50) }
-                />
-
-                <RecipesHomeCardList
-                    title = "Less than 100 mins"
-                    recipes = { filterRecipesByTime(51, 100) }
-                />
-            </ScrollView>
-        </>
-    );
+  return (
+    <>
+      {errorMessage ? (<Text>{errorMessage}</Text>) : null}
+      <Text>Found {favorites != null ? favorites.length : 0} results</Text>
+      <ScrollView showsVerticalScrollIndicator={false}>
+        <RecipesHomeCardList
+          title="My Favorites"
+          recipes={favorites}
+          fromFavorites={true}
+        />
+      </ScrollView>
+    </>
+  );
 };
-
-const styles = StyleSheet.create({
-    mainContainer: {
-        flex: 1
-    },
-    searchBarContainer: {
-        backgroundColor: 'rgba(0, 0, 0, 0)',
-        borderBottomColor: 'transparent',
-        borderTopColor: 'transparent',
-        borderWidth: 0
-    },
-    searchBarInputContainer: {
-        backgroundColor: 'rgba(0,0,0,0.05)'
-    }
-});
 
 export default FavoritesScreen;

@@ -1,22 +1,22 @@
-import { useState } from 'react';
-import spoonacularApi, { spoonacularApiKey } from '../api/spoonacular';
+import {useState} from 'react';
+import spoonacularApi, {spoonacularApiKey} from '../api/spoonacular';
 import { getRecipeByIdMock, getRecipesByTermCheeseMock, getRecipesRandomlyMock } from '../spoonacularMocks';
 
 export default () => {
-  const [ resultsFound, setResultsFound ] = useState([]);
-  const [ errorMessage, setErrorMessage ] = useState('');
+  const [resultsFound, setResultsFound] = useState([]);
+  const [favorites, setFavorites] = useState([]);
+  const [errorMessage, setErrorMessage] = useState('');
 
   const searchRecipesRandomly = async () => {
     try {
       const response = await spoonacularApi.recipes.get(`/random`, {
         params: {
           ...spoonacularApiKey,
-          number: 30
+          number: 15
         }
       });
       // const response = getRecipesRandomlyMock;
-
-      const { recipes } = response.data;
+      const {recipes} = response.data;
       setResultsFound(recipes);
       setErrorMessage('');
     } catch (e) {
@@ -35,7 +35,6 @@ export default () => {
         }
       });
       // const response = getRecipesByTermCheeseMock;
-
       const { results } = response.data;
       setResultsFound(results);
       setErrorMessage('');
@@ -47,29 +46,25 @@ export default () => {
 
   const searchRecipeById = async (id) => {
     try {
-      const response = await spoonacularApi.recipes.get(`/${ id }/information`, {
-        params: {
-          ...spoonacularApiKey
-        }
-      });
+      const response = await getARecipe(id);
       // const response = getRecipeByIdMock;
-
       const results = response.data;
-      setResultsFound(results);
       setErrorMessage('');
+      return results;
     } catch (e) {
       setErrorMessage('Something went wrong');
       console.log('ERROR: ' + e);
     }
   };
 
-  const getUserFavorites = async (id) => {
+  const getUserFavorites = async (ids) => {
     try {
-      const response = await spoonacularApi.user.get(`/${ id }/`);
       // const response = getRecipeByIdMock;
-
-      const results = response.data.favoriteRecipes;
-      setResultsFound(results);
+      const recipes = [];
+      for (const id of ids) {
+        recipes.push(await getARecipe(id));
+      }
+      setFavorites(recipes);
       setErrorMessage('');
     } catch (e) {
       setErrorMessage('Something went wrong');
@@ -77,5 +72,22 @@ export default () => {
     }
   };
 
-  return { searchRecipesByTerm, searchRecipeById, searchRecipesRandomly,getUserFavorites, resultsFound, errorMessage };
+  const getARecipe = async id => {
+    const recipe = await spoonacularApi.recipes.get(`/${id}/information`, {
+      params: {
+        ...spoonacularApiKey
+      }
+    });
+    return recipe.data;
+  };
+
+  return {
+    searchRecipesByTerm,
+    searchRecipeById,
+    searchRecipesRandomly,
+    getUserFavorites,
+    resultsFound,
+    errorMessage,
+    favorites
+  };
 };

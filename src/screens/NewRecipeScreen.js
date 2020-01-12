@@ -1,91 +1,114 @@
-import React, { useEffect, useState } from 'react';
-import { View, StyleSheet, TouchableOpacity } from 'react-native';
-import { Input, Button } from 'react-native-elements';
+import React, {useEffect, useState} from 'react';
+import {View, StyleSheet, TouchableOpacity} from 'react-native';
+import {Input, Button} from 'react-native-elements';
 
-import { Dimensions } from 'react-native';
+import {Dimensions} from 'react-native';
+
+import uuidv1 from 'uuid/v1';
+import useBackendRecipes from "../hooks/useBackendRecipes";
+import useBackendUsers from "../hooks/useBackendUsers";
+import {getCurrentUser} from "../firebase/auth";
 
 const WIDTH = Dimensions.get('window').width;
 
-const NewRecipeScreen = ({ navigation }) => {
-  const [ title, setTitle ] = useState('');
-  const [ servings, setServings ] = useState('');
-  const [ readyInMinutes, setReadyInMinutes ] = useState('');
-  const [ ingredientsArray, setIngredientsArray ] = useState([]);
-  const [ ingredientsInput, setIngredientsInput ] = useState('');
-  const [ text, setText ] = useState('');
+const NewRecipeScreen = ({navigation}) => {
+  const [title, setTitle] = useState('');
+  const [servings, setServings] = useState('');
+  const [readyInMinutes, setReadyInMinutes] = useState('');
+  const [ingredientsArray, setIngredientsArray] = useState([]);
+  const [ingredientsInput, setIngredientsInput] = useState('');
+  const [text, setText] = useState('');
+  const {postRecipe} = useBackendRecipes();
+  const {editUser} = useBackendUsers();
 
   useEffect(() => {
     let text = '';
     ingredientsArray.forEach((ingredient) => text += (ingredient.charAt(0).toUpperCase() + ingredient.substring(1) + '; '));
     setIngredientsInput(text);
-  }, [ ingredientsArray ]);
+  }, [ingredientsArray]);
+
+  const handlePublishRecipe = async () => {
+    const recipe = {
+      id: uuidv1(),
+      category: title,
+      ingredients: ingredientsArray,
+      preparation: servings + ";" + readyInMinutes + ";" + text
+    };
+
+    const results = await postRecipe(recipe);
+    if (results !== null) {
+      await editUser(getCurrentUser().uid, [], [results.id]);
+      alert("Recipe added successfully");
+    } else {
+      alert("Something went wrong while adding recipe!");
+    }
+  };
 
   return (
-    <View style = { styles.container }>
+    <View style={styles.container}>
       <Input
-        placeholder = { 'Name of dish' }
-        placeholderTextColor = { 'gray' }
-        value = { title }
-        onChangeText = { setTitle }
-        containerStyle = { styles.inputContainer }
-        numberOfLines = { 1 }
+        placeholder={'Name of dish'}
+        placeholderTextColor={'gray'}
+        value={title}
+        onChangeText={setTitle}
+        containerStyle={styles.inputContainer}
+        numberOfLines={1}
         autoCorrect
-        autoCapitalize = { 'words' }
+        autoCapitalize={'words'}
       />
-      <View style = { styles.smallInputsFlex }>
+      <View style={styles.smallInputsFlex}>
         <Input
-          placeholder = { 'Amount of people' }
-          placeholderTextColor = { 'gray' }
-          value = { servings }
-          onChangeText = { setServings }
-          containerStyle = { styles.smallInputContainer }
-          numberOfLines = { 1 }
+          placeholder={'Amount of people'}
+          placeholderTextColor={'gray'}
+          value={servings}
+          onChangeText={setServings}
+          containerStyle={styles.smallInputContainer}
+          numberOfLines={1}
           autoCorrect
-          autoCapitalize = { 'words' }
+          autoCapitalize={'words'}
         />
         <Input
-          placeholder = { 'Cooking time (mins)' }
-          placeholderTextColor = { 'gray' }
-          value = { readyInMinutes }
-          onChangeText = { setReadyInMinutes }
-          containerStyle = { styles.smallInputContainer }
-          numberOfLines = { 1 }
+          placeholder={'Cooking time (mins)'}
+          placeholderTextColor={'gray'}
+          value={readyInMinutes}
+          onChangeText={setReadyInMinutes}
+          containerStyle={styles.smallInputContainer}
+          numberOfLines={1}
           autoCorrect
-          autoCapitalize = { 'words' }
+          autoCapitalize={'words'}
         />
       </View>
       <TouchableOpacity
-        onPress = { () => {
-          navigation.navigate('Ingredients', { setIngredientsArray, ingredientsArray });
-          // setIngredientsArray([...ingredientsArray, 'someText'])
-        } }
+        onPress={() => {
+          navigation.navigate('Ingredients', {setIngredientsArray, ingredientsArray});
+        }}
       >
         <Input
-          inputStyle = { styles.ingredientsInput }
-          containerStyle = { styles.inputContainerDisabled }
-          inputContainerStyle = { styles.borderBottomZero }
-          value = { ingredientsInput }
+          inputStyle={styles.ingredientsInput}
+          containerStyle={styles.inputContainerDisabled}
+          inputContainerStyle={styles.borderBottomZero}
+          value={ingredientsInput}
           disabled
-          placeholder = { 'Choose Ingredients' }
-          placeholderTextColor = { 'gray' }
+          placeholder={'Choose Ingredients'}
+          placeholderTextColor={'gray'}
         />
       </TouchableOpacity>
 
       <Input
-        value = { text }
+        value={text}
         multiline
-        onChangeText = { setText }
-        inputStyle = { styles.descriptionInput }
-        containerStyle = { styles.inputContainer }
-        numberOfLines = { 4 }
+        onChangeText={setText}
+        inputStyle={styles.descriptionInput}
+        containerStyle={styles.inputContainer}
+        numberOfLines={4}
         autoCorrect
-        autoCapitalize = { 'sentences' }
-        placeholder = { 'How to make this recipe?' }
-        placeholderTextColor = { 'gray' }
+        autoCapitalize={'sentences'}
+        placeholder={'How to make this recipe?'}
+        placeholderTextColor={'gray'}
       />
       <Button
-        title = { 'Publish' }
-        onPress = { () => {/*publish through api*/} }
+        title={'Publish'}
+        onPress={async () => await handlePublishRecipe()}
       />
     </View>
   );

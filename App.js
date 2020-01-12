@@ -6,6 +6,7 @@ import { createBottomTabNavigator } from 'react-navigation-tabs';
 import HomeScreen from './src/screens/HomeScreen';
 import FavoritesScreen from './src/screens/FavoritesScreen';
 import RecipeDetailedScreen from './src/screens/RecipeDetailedScreen';
+import LocalRecipeDetailedScreen from "./src/screens/LocalRecipeDetailedScreen";
 import SignInScreen from './src/screens/SignInScreen';
 import SignUpScreen from './src/screens/SignUpScreen';
 import { ThemeProvider } from 'react-native-elements';
@@ -14,9 +15,8 @@ import NewRecipeScreen from './src/screens/NewRecipeScreen';
 import IngredientsScreen from './src/screens/IngredientsScreen';
 import { Icon } from 'react-native-elements';
 
-import TabBarIcon from 'react-navigation-tabs/src/views/CrossFadeIcon';
-
-Bottom: createBottomTabNavigator({
+// noinspection JSCheckFunctionSignatures
+createBottomTabNavigator({
     Main: createStackNavigator(
       {
         Home: HomeScreen,
@@ -37,6 +37,7 @@ Bottom: createBottomTabNavigator({
     }
   });
 
+// noinspection JSCheckFunctionSignatures
 const AppSwitchNavigator =
   createSwitchNavigator({
     LoginFlow: createStackNavigator({
@@ -53,41 +54,42 @@ const AppSwitchNavigator =
       Main: {
         screen: createStackNavigator({
           Home: HomeScreen,
-          Recipe: RecipeDetailedScreen
+          Recipe: RecipeDetailedScreen,
+          LocalRecipe: LocalRecipeDetailedScreen
         }, {
           initialRouteName: 'Home',
           navigationOptions: ({ navigation }) => {
             return {
               title: 'Home',
-              tabBarVisible: navigation.state.index > 0 ? false : true
+              tabBarVisible: navigation.state.index <= 0
             };
           }
         })
       },
       Favorites: {
         screen: createStackNavigator({
-          NewRecipe2: FavoritesScreen,
+          Favorites: FavoritesScreen,
           Ingredients: IngredientsScreen
         }, {
-          initialRouteName: 'NewRecipe2',
+          initialRouteName: 'Favorites',
           navigationOptions: ({ navigation }) => {
             return {
               title: 'Favorites',
-              tabBarVisible: navigation.state.index > 0 ? false : true
+              tabBarVisible: navigation.state.index <= 0
             };
           }
         })
       },
       NewRecipe: {
         screen: createStackNavigator({
-          NewRecipe2: NewRecipeScreen,
+          NewRecipe: NewRecipeScreen,
           Ingredients: IngredientsScreen
         }, {
-          initialRouteName: 'NewRecipe2',
+          initialRouteName: 'NewRecipe',
           navigationOptions: ({ navigation }) => {
             return {
               title: 'New',
-              tabBarVisible: navigation.state.index > 0 ? false : true
+              tabBarVisible: navigation.state.index <= 0
             };
           }
         })

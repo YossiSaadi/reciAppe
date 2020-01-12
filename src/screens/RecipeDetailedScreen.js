@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { View, StyleSheet, FlatList } from 'react-native';
 import { Image, Text } from 'react-native-elements';
-import useRecipes from '../hooks/useSpoonacularRecipes';
 import SpinnerLoader from '../components/SpinnerLoader';
 
 import { Dimensions } from 'react-native';
@@ -10,16 +9,9 @@ const WIDTH = Dimensions.get('window').width;
 
 const RecipeDetailedScreen = ({ navigation }) => {
   const [ recipe, setRecipe ] = useState(null);
-  const { searchRecipeById, resultsFound } = useRecipes();
 
   useEffect(() => {
-    (async () => {
-      const recipeId = navigation.getParam('recipeId');
-      if (!recipe) {
-        await searchRecipeById(recipeId);
-      }
-      setRecipe(resultsFound);
-    })();
+    setRecipe(navigation.getParam('recipe'));
   }, [ recipe ]);
 
   if (!recipe || recipe.length === 0) {
