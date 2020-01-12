@@ -1,8 +1,10 @@
 import {useState} from 'react';
 import spoonacularApi, {spoonacularApiKey} from '../api/spoonacular';
+import { getRecipeByIdMock, getRecipesByTermCheeseMock, getRecipesRandomlyMock } from '../spoonacularMocks';
 
 export default () => {
   const [resultsFound, setResultsFound] = useState([]);
+  const [favorites, setFavorites] = useState([]);
   const [errorMessage, setErrorMessage] = useState('');
 
   const searchRecipesRandomly = async () => {
@@ -10,10 +12,10 @@ export default () => {
       const response = await spoonacularApi.recipes.get(`/random`, {
         params: {
           ...spoonacularApiKey,
-          number: 30
+          number: 15
         }
       });
-
+      // const response = getRecipesRandomlyMock;
       const {recipes} = response.data;
       setResultsFound(recipes);
       setErrorMessage('');
@@ -32,7 +34,7 @@ export default () => {
           number: 30
         }
       });
-
+      // const response = getRecipesByTermCheeseMock;
       const { results } = response.data;
       setResultsFound(results);
       setErrorMessage('');
@@ -45,8 +47,8 @@ export default () => {
   const searchRecipeById = async (id) => {
     try {
       const response = await getARecipe(id);
+      // const response = getRecipeByIdMock;
       const results = response.data;
-      setResultsFound(results);
       setErrorMessage('');
       return results;
     } catch (e) {
@@ -57,11 +59,12 @@ export default () => {
 
   const getUserFavorites = async (ids) => {
     try {
+      // const response = getRecipeByIdMock;
       const recipes = [];
       for (const id of ids) {
         recipes.push(await getARecipe(id));
       }
-      setResultsFound(recipes);
+      setFavorites(recipes);
       setErrorMessage('');
     } catch (e) {
       setErrorMessage('Something went wrong');
@@ -84,6 +87,7 @@ export default () => {
     searchRecipesRandomly,
     getUserFavorites,
     resultsFound,
-    errorMessage
+    errorMessage,
+    favorites
   };
 };

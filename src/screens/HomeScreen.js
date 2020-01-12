@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {StyleSheet, ScrollView} from 'react-native';
-import {Text, SearchBar} from 'react-native-elements';
+import {Text, SearchBar, Button} from 'react-native-elements';
 import useRecipes from '../hooks/useSpoonacularRecipes';
 import RecipesHomeCardList from '../components/RecipesHomeCardList';
 import {getCurrentUser} from "../firebase/auth";
@@ -9,6 +9,7 @@ import useBackendRecipes from "../hooks/useBackendRecipes";
 
 const HomeScreen = () => {
   const [searchTermInput, setSearchTermInput] = useState('');
+  const [refresh, setRefresh] = useState(false);
   const [userRecipes, setUserRecipes] = useState([]);
   const {searchRecipesByTerm, searchRecipesRandomly, resultsFound, errorMessage} = useRecipes();
   const {getUserById} = useBackendUsers();
@@ -33,9 +34,14 @@ const HomeScreen = () => {
   useEffect(() => {
     (async () => {
       await searchRecipesRandomly();
-      return await getUsersRecipes();
     })();
-  }, []);
+  }, [refresh]);
+
+  useEffect(() => {
+    (async () => {
+      await getUsersRecipes();
+    })()
+  }, [userRecipes]);
 
   return (
     <>
@@ -74,6 +80,10 @@ const HomeScreen = () => {
           recipes={filterRecipesByTime(51, 100)}
         />
       </ScrollView>
+      <Button
+        title={'Refresh results'}
+        onPress={() => setRefresh(true)}
+      />
     </>
   );
 };
