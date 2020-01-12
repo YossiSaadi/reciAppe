@@ -1,6 +1,6 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect} from 'react';
 import {StyleSheet, ScrollView} from 'react-native';
-import {SearchBar, Text} from 'react-native-elements';
+import {Text} from 'react-native-elements';
 import useRecipes from '../hooks/useSpoonacularRecipes';
 import RecipesHomeCardList from '../components/RecipesHomeCardList';
 import useBackendUsers from "../hooks/useBackendUsers";
@@ -32,20 +32,5 @@ const FavoritesScreen = () => {
     </>
   );
 };
-
-const styles = StyleSheet.create({
-  mainContainer: {
-    flex: 1
-  },
-  searchBarContainer: {
-    backgroundColor: 'rgba(0, 0, 0, 0)',
-    borderBottomColor: 'transparent',
-    borderTopColor: 'transparent',
-    borderWidth: 0
-  },
-  searchBarInputContainer: {
-    backgroundColor: 'rgba(0,0,0,0.05)'
-  }
-});
 
 export default FavoritesScreen;
